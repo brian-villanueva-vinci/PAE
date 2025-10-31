@@ -1,0 +1,48 @@
+@baseUrl = http://localhost:3000
+
+### Login the default user & define a Request Variable
+# @name eleonore
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+  "email":"Caroline.line@student.vinci.be",
+  "password":"mdpuser.1"
+}
+
+> {%
+  client.global.set("raphaelBaroni", response.body.token);
+%}
+
+### Login the default user with remember me or refresh
+GET {{baseUrl}}/users/login
+Authorization: {{eleonoreToken}}
+
+### Edit a user
+POST {{baseUrl}}/users/editUser
+Content-Type: application/json
+Authorization: {{raphaelBaroni}}
+
+{
+  "id": 5,
+  "email": "Caroline.line@student.vinci.be",
+  "lastname": "Line",
+  "firstname": "Caroline",
+  "phoneNumber": "04465802166",
+  "registrationDate": 1694988000000,
+  "schoolYear": "2023-2024",
+  "role": "Etudiant",
+  "version": 1
+}
+
+### Edit a password
+POST {{baseUrl}}/users/editPassword
+Content-Type: application/json
+Authorization: {{raphaelBaroni}}
+
+{
+  "id": 5,
+  "oldPassword": "mdpuser.1",
+  "newPassword": "1234",
+  "repeatedPassword" : "1234"
+}

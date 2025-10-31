@@ -1,0 +1,41 @@
+@baseUrl = http://localhost:3000
+
+### Login the default user & define a Request Variable
+# @name Carole
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+  "email":"Carole.skile@student.vinci.be",
+  "password":"mdpuser.1"
+}
+
+> {%
+  client.global.set("caroleToken", response.body.token);
+%}
+
+### Get one supervisor
+GET {{baseUrl}}/supervisors/2
+Content-Type: application/json
+Authorization: {{caroleToken}}
+
+### Get all supervisors from a company
+GET {{baseUrl}}/supervisors/allByCompany/1
+Content-Type: application/json
+Authorization: {{caroleToken}}
+
+### Create a internship
+POST {{baseUrl}}/supervisors/add
+Authorization: {{caroleToken}}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "company": {
+    "id": 1
+  },
+  "lastname": "Paquet",
+  "firstname": "Gabriel",
+  "phoneNumber": "0487 00 00 10",
+  "email": "me@supervisor.be"
+}

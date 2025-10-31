@@ -1,0 +1,75 @@
+@baseUrl = http://localhost:3000
+
+### Login the default user & define a Request Variable
+# @name Ach
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+  "email":"basile.ilot@student.vinci.be",
+  "password":"mdpuser.1"
+}
+
+> {%
+  client.global.set("AchToken", response.body.token);
+%}
+
+### Create one contact
+POST {{baseUrl}}/contacts/start
+Content-Type: application/json
+Authorization: {{AchToken}}
+
+{
+  "company": "2"
+}
+### Admit one contact
+POST {{baseUrl}}/contacts/admit
+Content-Type: application/json
+Authorization: {{AchToken}}
+
+{
+  "contactId": "12",
+  "meeting": "A distance",
+  "version": "1"
+}
+
+### Unsupervise one contact
+POST {{baseUrl}}/contacts/unsupervise
+Content-Type: application/json
+Authorization: {{AchToken}}
+
+{
+  "contactId":"12",
+  "version":"1"
+}
+
+### accept one contact
+POST {{baseUrl}}/contacts/accept
+Content-Type: application/json
+Authorization: {{AchToken}}
+
+{
+  "contactId":"12",
+  "version":"2"
+}
+
+### turndown one contact
+POST {{baseUrl}}/contacts/turnDown
+Content-Type: application/json
+Authorization: {{AchToken}}
+
+{
+  "contactId": "12",
+  "reasonForRefusal": "your profil isn't corresponding to our demand",
+  "version":"2"
+}
+
+### get all contacts by student
+GET {{baseUrl}}/contacts/all/6
+Content-Type: application/json
+Authorization: {{AchToken}}
+
+### get all contacts by company
+GET {{baseUrl}}/contacts/all/company/3
+Content-Type: application/json
+Authorization: {{AchToken}}
